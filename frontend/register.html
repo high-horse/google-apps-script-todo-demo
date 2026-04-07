@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Register - Todo App</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body class="bg-light">
+
+<div class="container mt-5">
+  <h2>Register</h2>
+  <div id="message"></div>
+  <form id="registerForm">
+    <div class="mb-3">
+      <label>Name</label>
+      <input type="text" id="name" class="form-control" required>
+    </div>
+    <div class="mb-3">
+      <label>Email</label>
+      <input type="email" id="email" class="form-control" required>
+    </div>
+    <div class="mb-3">
+      <label>Password</label>
+      <input type="password" id="password" class="form-control" required>
+    </div>
+    <button type="submit" class="btn btn-success">Register</button>
+    <a href="login.html" class="btn btn-link">Login</a>
+  </form>
+</div>
+
+<script>
+const GAS_URL = "https://script.google.com/macros/s/AKfycbyalrNvBIEvRs3JQIQjYpfwTnwoczvXUAzSUSZaJiGJUBgPWNQKLqUxGHvTTO4JO0wMkA/exec"; // replace with your deployed GAS URL
+
+// Block access if already logged in
+if(localStorage.getItem('token')){
+  window.location.href = "todo.html";
+}
+
+// Register form
+$('#registerForm').submit(function(e){
+  e.preventDefault();
+  const name = $('#name').val();
+  const email = $('#email').val();
+  const password = $('#password').val();
+
+  $.getJSON(GAS_URL, { route: "user", action: "register", name, email, password }, function(res){
+    if(res.success){
+      localStorage.setItem('token', res.token);
+      window.location.href = "todo.html";
+    } else {
+      $('#message').text(res.error).addClass('text-danger');
+    }
+  });
+});
+</script>
+
+</body>
+</html>
