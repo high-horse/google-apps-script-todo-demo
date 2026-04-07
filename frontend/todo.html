@@ -30,13 +30,13 @@ const token = localStorage.getItem('token');
 
 // Block access if not logged in
 if(!token){
-  window.location.href = "login.html";
+  window.location.href = "index.html";
 }
 
 // Logout
 $('#logoutBtn').click(function(){
   localStorage.removeItem('token');
-  window.location.href = "login.html";
+  window.location.href = "index.html";
 });
 
 // Load todos
